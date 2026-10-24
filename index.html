@@ -1,1 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hypertrophy Tracker</title>
+<meta name="description" content="5-day rotating hypertrophy plan and workout tracker for Smith machine, dumbbells and cables.">
+<meta name="theme-color" content="#0f1115">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Hypertrophy">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="flash"></div>
+<header id="hud">
+  <div class="stats">
+    <div><span class="lbl">Session</span><span class="val" id="stSession">0:00</span></div>
+    <div><span class="lbl">In sets</span><span class="val" id="stWork">0:00</span></div>
+    <div><span class="lbl">Resting</span><span class="val" id="stRest">0:00</span></div>
+    <div><span class="lbl">kcal (est.)</span><span class="val" id="stKcal">0</span></div>
+  </div>
+  <div class="progress"><div id="progFill"></div></div>
+  <div class="progtext"><span id="progText">0 of 0 sets</span><span id="progPct">0%</span></div>
+  <div id="restBanner" class="rest hidden">
+    <div class="restinfo"><div id="restLabel" class="restlabel"></div><div class="restclock"><span id="restClock">0:00</span><small id="restTarget"></small></div></div>
+    <button class="btn" data-act="rest30">+30s</button>
+    <button class="btn" data-act="skipRest">Skip</button>
+  </div>
+  <div id="activeNote" class="activenote hidden"></div>
+  <div class="row">
+    <button class="btn primary" data-act="toggleSession" id="btnSession">Start session</button>
+    <button class="btn" data-act="finish" id="btnFinish">Finish &amp; log</button>
+    <button class="btn" data-act="reset" id="btnReset">Reset</button>
+  </div>
+</header>
 
+<main>
+  <h1>Hypertrophy Tracker</h1>
+  <p class="muted">Push / Pull / Legs / Upper / Lower, built for a Smith machine, dumbbells and one cable stack. New variations every week of a 4-week cycle.</p>
+
+  <section>
+    <div class="seg" id="weekSeg"></div>
+    <div class="seg" id="daySeg"></div>
+    <p id="dayText"></p>
+    <label class="field">Body weight (lb), used for the calorie estimate (edit to yours)
+      <input id="bw" type="number" inputmode="decimal" min="60" max="500">
+    </label>
+  </section>
+
+  <section>
+    <h2>Muscles worked</h2>
+    <div class="legend"><span><i class="dot p"></i>Primary</span><span><i class="dot s"></i>Secondary</span></div>
+    <div id="bodyMap"></div>
+    <p id="mapText" class="muted small"></p>
+  </section>
+
+  <section>
+    <h2>Exercises</h2>
+    <p class="muted small">Warm up first: 5 minutes of easy cardio, then 2-3 lighter ramp-up sets on the first two lifts. Tap Start when you begin a set and the check when you rack it; the rest timer starts on its own.</p>
+    <div id="exList"></div>
+  </section>
+
+  <section id="histSec">
+    <h2>Session history</h2>
+    <div id="histWrap"></div>
+    <div class="row">
+      <button class="btn" data-act="export">Export backup (JSON)</button>
+      <button class="btn" data-act="import">Import backup</button>
+      <button class="btn" data-act="clearHist" id="btnClearHist">Clear history</button>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
+    </div>
+    <p id="ioMsg" class="muted small"></p>
+  </section>
+
+  <section>
+    <h2>Weekly sets per muscle</h2>
+    <p class="muted small" id="volCaption"></p>
+    <div id="volChart"></div>
+  </section>
+
+  <section>
+    <h2>How the plan works</h2>
+    <ul class="plain">
+      <li><b>Split:</b> D1 Push, D2 Pull, D3 Legs (quad focus), D4 Upper, D5 Lower (glute/hamstring focus). Every muscle about twice a week.</li>
+      <li><b>Volume:</b> about 10-20 hard sets per muscle per week, mostly 6-15 reps, 1-3 reps short of failure.</li>
+      <li><b>Weekly rotation:</b> Weeks 1-4 swap angles and equipment for the same muscles.</li>
+      <li><b>No decline bench:</b> each Push and Upper day has one decline substitute: high-to-low cable fly, DB hip-bridge press, Smith hip-bridge floor press, or standing cable decline press. Abs use cable crunches or leg raises off the flat bench end.</li>
+      <li><b>Progression:</b> 3 RIR, then 2, then 1-2, then 1 with an extra set on the first lift. After week 4, take an optional easy week, then restart week 1 and beat your "Last time" numbers.</li>
+      <li><b>Rest:</b> 2-3 min on heavy compounds, 60-90 s on isolation work.</li>
+    </ul>
+    <div class="note"><b>Eating to grow:</b> to add muscle, aim for a modest calorie surplus (roughly 250-500 kcal a day above maintenance) and about 1.6-2.2 g of protein per kg of body weight a day (0.7-1 g per lb). Target about 0.5-1 lb of gain a month. General guidance, not medical advice.</div>
+    <p class="muted small">Calories are an estimate: body weight (kg) × 6.0 MET × hours in sets, plus × 1.75 MET for rest and the rest of the session. Progress is saved on this device; use Export backup now and then.</p>
+  </section>
+</main>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
